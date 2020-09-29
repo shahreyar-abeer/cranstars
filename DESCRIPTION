@@ -1,17 +1,17 @@
 Package: cranstars
-Title: An Amazing Shiny App
+Title: CranStars
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "firstname",
-           family = "lastname",
+    person(given = "Zauad Shahreer",
+           family = "Abeer",
            role = c("aut", "cre"),
-           email = "your@email.com")
-Description: What the package does (one paragraph).
-License: What license is it under?
+           email = "shahreyar.abeer@gmail.com")
+Description: A shiny app that given a package name, shows cran downloads &amp; github stars stats, made with the {golem} framework.
+License: MIT + file LICENSE
 Imports: 
     config,
     golem,
     shiny
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
