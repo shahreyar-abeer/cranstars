@@ -10,7 +10,6 @@
 #' @export
 #'
 #' @importFrom lubridate ymd_hms
-#' @importFrom purrr is_empty
 #' @importFrom gh gh
 #' @importFrom rlang .data
 #' @import dplyr
@@ -31,8 +30,7 @@ get_gh_stars <- function(repo) {
                     .token = Sys.getenv("GITHUB_PAT"),
                     page = page))
     
-    geht <- !is_empty(stars)
-    geht <- !is_empty(stars)
+    geht <- length(stars) != 0
     if(geht){
       stardates <- c(stardates, vapply(stars, "[[", "", "starred_at"))
       page <- page + 1
