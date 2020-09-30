@@ -60,7 +60,7 @@ get_gh_stars <- function(repo) {
 #' @export
 #'
 #' @examples
-#' get_cran_data("rsconnect")
+#' get_cran_data("rsconnect", from_date = (Sys.Date() - 10))
 #' 
 get_cran_data <- function(package_names, from_date, to_date = Sys.Date()) {
   cran_downloads(
