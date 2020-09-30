@@ -1,5 +1,5 @@
 Package: cranstars
-Title: CranStars
+Title: A Shiny app that shows CRAN downloads & Github stars statistics
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Zauad Shahreer",
@@ -8,6 +8,7 @@ Authors@R:
            email = "shahreyar.abeer@gmail.com")
 Description: A shiny app that given a package name, shows cran downloads &amp; github stars stats, made with the {golem} framework.
 License: MIT + file LICENSE
+Depends: R (>= 2.10)
 Imports: 
     config,
     golem,
