@@ -2,8 +2,9 @@
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-<!-- badges: end -->
+<!-- badges: end -->  
 
 
 
-A shiny app that given a package name, shows cran downloads &amp; github stars stats, made with {golem}
+A shiny app that given a package name, shows cran downloads &amp; github stars stats,
+made with the {golem} framework.
