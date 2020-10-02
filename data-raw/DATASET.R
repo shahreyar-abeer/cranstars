@@ -24,6 +24,10 @@ tidypacks <-
     "tidyverse/tidyr",
     "hadley/xml2")
 
+repos = data.frame(tidypacks)
+## making the list of repos available as a data set
+usethis::use_data(repos, overwrite = TRUE)
+
 ## getting the github stars using the get_gh_stars() defined in this package
 gh_stars_data <- purrr::map(tidypacks, get_gh_stars)
 gh_stars_data <- dplyr::bind_rows(gh_stars_data)
