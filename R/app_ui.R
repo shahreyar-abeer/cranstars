@@ -10,7 +10,30 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # List the first level UI elements here 
     fluidPage(
-      h1("cranstars")
+      sidebarLayout(
+        sidebarPanel(
+          width = 3,
+          fluidRow(
+            h1("cranStars", class = "h-title"),
+            mod_sidebar_ui("sidebar")
+          )
+        ),
+        
+        mainPanel(
+          width = 9,
+          fluidRow(
+            column(
+              width = 6,
+              mod_plot_ui("cran")
+            ),
+            column(
+              width = 6,
+              mod_plot_ui("gh")
+            ),
+            verbatimTextOutput("repo")
+          )
+        )
+      )
     )
   )
 }
