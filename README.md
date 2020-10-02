@@ -6,5 +6,5 @@
 
 
 
-A shiny app that given a package name, shows cran downloads &amp; github stars stats,
+A shiny app that given a package name, shows cran downloads &amp; github star stats,
 made with the {golem} framework.
