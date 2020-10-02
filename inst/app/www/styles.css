@@ -1,0 +1,44 @@
+
+
+@import url(//fonts.googleapis.com/css?family=IBM+Plex+Sans);
+
+:root {
+  --pine-tree: #292e1eff;
+  --orange: #DA7C30;
+  --dark-orchid: #9649cbff;
+  --rstudio-blue: #4F84B6;
+  --background: white;
+}
+
+body{
+  background-color: var(--rstudio-blue);
+  margin:2em;
+  font-family: IBM Plex Sans;
+}
+
+.h-title {
+  margin-top:0px !important;
+}
+
+.col-sm-9> .row{
+  background: var(--background);
+  border:solid 1px;
+  border-radius:25px;
+  border-color: var(--orange);
+  padding:2em;
+  margin-bottom:1em
+}
+.well{
+  background-color: var(--background);
+  border-radius:25px;
+  padding:2em;
+  border-color: var(--orange)
+}
+
+h2, h3{
+  color: var(--pine-tree);
+}
+
+img{
+  padding-top:5em;
+}
