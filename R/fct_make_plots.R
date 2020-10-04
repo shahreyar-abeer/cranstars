@@ -14,7 +14,6 @@
 #' @examples
 cran_plot <- function(r) {
   
-  
   repo <- get_cran_name(r$repo)
   date_range = r$date
   praise = paste0("{", repo, "} ", " is ", sample(adjectives, 1), "!")
@@ -31,46 +30,75 @@ cran_plot <- function(r) {
       title = "CRAN Downloads",
       subtitle = paste0("CRAN downloads for {", repo, "}"),
       caption = praise
-    ) 
+    ) +
+    theme_minimal(base_size = 18, base_family = "sans")
 }
 
 
 
+#' Title
+#'
+#' @param r 
+#'
+#' @return
+#' 
+#' @importFrom lubridate year week day
+#' 
+#' @export
+#'
+#' @examples
 gh_plot <- function(r) {
   #praise = paste0("{", repo, "} ", " is ", sample(adjectives, 1), "!")
   
   repo = r$repo
   date_range = r$date
   
-  r$gh_stars %>% 
-    filter(
-      package == repo,
-      date >= date_range[1] & date <= date_range[2]
-    ) %>% 
-    mutate(yrmon = make_yrmon(date)) %>% 
-    # mutate(
-    #   mon = lubridate::month(date),
-    #   yr = lubridate::year(date)
-    # ) %>% 
-    group_by(package, yrmon) %>% 
-    tally(n_stars) %>%
-    glimpse() %>% 
-    ggplot() +
-    geom_path(aes(x = yrmon, y = n, group = package), color = "steelblue", size = 1.5) +
-    labs(
-      title = "Github Stars",
-      subtitle = paste0("Github stars for {", repo, "}")
-    )
-    #ggplot() +
+  start = date_range[1]
+  end = date_range[2]
+  all_dates <- data.frame(date = seq(start, end, by = "day"))
   
-  # cran_dl_data %>%
-  #   filter(package == repo,
-  #          date >= date_range[1] & date <= date_range[2]) %>%
-  #   ggplot() +
-  #   geom_path(aes(x = date, y = count, group = package), color = orange) +
-  #   labs(
-  #     title = "CRAN Downloads",
-  #     subtitle = paste0("CRAN downloads for {", repo, "}"),
-  #     caption = praise
-  #   )
+  stars <- r$gh_stars %>% 
+    filter(package == repo)
+  
+  joined <- all_dates %>% 
+    left_join(stars) %>% 
+    mutate(year = year(date), week = week(date), day = weekdays(date, TRUE)) %>% 
+    filter(date >= date_range[1] & date <= date_range[2])
+  
+  
+  joined %>% 
+    glimpse() %>% 
+    ggplot(aes(x = week, y = day, fill = n_stars)) +
+    
+    scale_fill_gradient(
+      low = "#c1f5ca",
+      high = "#366E39",
+      na.value = "grey90",
+      limits = c(0, max(joined$n_stars)
+      )) +
+    
+    geom_tile(color = "white", size = 0.4) +
+    facet_wrap("year", ncol = 1) +
+    scale_x_continuous(
+      expand = c(0, 0),
+      breaks = seq(1, 52, length = 12),
+      labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    scale_y_discrete(
+      expand = c(0, 0),
+      #breaks = seq(1, 7),
+      labels = c("Thu", "Wed", "Tue", "Mon", "Sun", "Sat", "Fri"),
+    ) + 
+    labs(
+      title = "Github Stars (github style)",
+      subtitle = paste0("Stars for {", repo, "}")
+    ) +
+    ggthemes::theme_tufte(base_family = "sans", base_size = 15) +
+    theme(axis.title = element_blank(),
+          axis.ticks = element_blank(),
+          legend.position = "bottom",
+          legend.key.width = unit(1, "cm"),
+          strip.text = element_text(hjust = 0.01, face = "bold", size = 15),
+          title = element_text(size = 18),
+          legend.title = element_blank())
 }

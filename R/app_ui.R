@@ -24,11 +24,11 @@ app_ui <- function(request) {
           fluidRow(
             column(
               width = 6,
-              mod_plot_ui("cran")
+              mod_plot_ui("cran", 600)
             ),
             column(
               width = 6,
-              mod_plot_ui("gh")
+              mod_plot_ui("gh", 450)
             ),
             verbatimTextOutput("repo")
           )
@@ -57,9 +57,11 @@ golem_add_external_resources <- function(){
     bundle_resources(
       path = app_sys('app/www'),
       app_title = 'cranstars'
-    )
+    ),
+    shinybusy::use_busy_spinner()
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert() 
+    
   )
 }
 

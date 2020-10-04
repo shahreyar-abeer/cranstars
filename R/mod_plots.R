@@ -7,11 +7,11 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-mod_plot_ui <- function(id){
+mod_plot_ui <- function(id, height){
   ns <- NS(id)
   tagList(
     fluidRow(
-      plotOutput(ns("plot"), height = 600)
+      plotOutput(ns("plot"), height = height)
     )
   )
 }
@@ -34,13 +34,13 @@ mod_plot_server <- function(id, r, type = c("cran", "gh")){
         if (type == "cran") {
           gg <- cran_plot(r)
         } else {
+          print(inherits(r$gh_stars, "try-error"))
           gg <- gh_plot(r)
         }
         
-        gg +
-          theme_minimal(base_size = 18, base_family = "sans")
+        gg
         
-      }, cacheKeyExpr = list(r$repo, r$date))
+      }, cacheKeyExpr = {list(r$repo, r$date)} )
     }
   )
 }

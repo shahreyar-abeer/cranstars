@@ -28,7 +28,10 @@ get_gh_stars <- function(repo) {
     stars <- try(gh::gh(paste0("/repos/", repo, "/stargazers"),
                     .send_headers = c("Accept" = 'application/vnd.github.v3.star+json'),
                     .token = Sys.getenv("GITHUB_PAT"),
-                    page = page))
+                    page = page),
+                 silent = TRUE)
+    
+    if(inherits(stars, "try-error")) return(stars)
     
     geht <- length(stars) != 0
     if(geht){

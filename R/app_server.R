@@ -9,8 +9,8 @@ app_server <- function( input, output, session ) {
   r = reactiveValues(
     repo = NULL,
     date = NULL,
-    cran_dl = cran_dl_data,
-    gh_stars = gh_stars_data
+    cran_dl = NULL,
+    gh_stars = NULL
   )
   mod_sidebar_server("sidebar", r)
   mod_plot_server("cran", r, "cran")
