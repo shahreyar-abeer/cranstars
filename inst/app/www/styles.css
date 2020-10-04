@@ -42,3 +42,8 @@ h2, h3{
 img{
   padding-top:5em;
 }
+
+.sk-cube1 {
+  height: 35% !important;
+  width: 34% !important;
+}
