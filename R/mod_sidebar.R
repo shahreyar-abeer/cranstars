@@ -42,7 +42,12 @@ mod_sidebar_ui <- function(id){
       inputId = ns("check_my_repo"),
       label = "I want to check out my pakcage!"
     ),
-    uiOutput(ns("downloading"), style="height:100px;")
+    uiOutput(ns("downloading"), style="height:100px;"),
+    tags$p("Because the data from github is downloaded page by page,
+           the more stars you have, the longer you'll have to wait.
+           I'll leave it to you to decide whehter popularity is a blessing or a curse!"),
+    tags$hr(),
+    tags$footer("Zauad Shahreer Abeer")
   )
 }
     
@@ -126,13 +131,14 @@ mod_sidebar_server <- function(id, r){
             
             gh_stars <- reactive({ 
               w$show()
+              g <- get_gh_stars(package)
               cran_name <- get_cran_name(package)
               r$cran_dl <- get_cran_data(
                 package_names = cran_name,
                 from_date = date[1],
                 to_date = date[2]
               )
-              get_gh_stars(package)
+              g
             })
             
             output$downloading <- renderUI({
@@ -163,8 +169,7 @@ mod_sidebar_server <- function(id, r){
               if( sum(r$cran_dl$count) == 0 ) {
                 showModal(modalDialog(
                   title = "Is it on CRAN yet?",
-                  "Data for CRAN has 0 rows, it may not be up on CRAN yet.",
-                  "Or simply, it doesn't have any downloads."
+                  "0 downloads from CRAN. Maybe its not on CRAN yet, is it?"
                 ))
               } else {
                 showModal(modalDialog(
