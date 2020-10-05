@@ -43,7 +43,7 @@ app_ui <- function(request) {
 #' This function is internally used to add external 
 #' resources inside the Shiny application. 
 #' 
-#' @import shiny
+#' @importFrom shiny tags
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
 golem_add_external_resources <- function(){
@@ -58,7 +58,8 @@ golem_add_external_resources <- function(){
       path = app_sys('app/www'),
       app_title = 'cranstars'
     ),
-    shinybusy::use_busy_spinner()
+    waiter::use_waiter(),
+    shinyjs::useShinyjs()
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert() 
     

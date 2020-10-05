@@ -31,16 +31,17 @@ mod_plot_server <- function(id, r, type = c("cran", "gh")){
       
       output$plot <- renderCachedPlot({
         
+        req(r$cran_dl)
+        req(r$gh_stars)
         if (type == "cran") {
           gg <- cran_plot(r)
         } else {
-          print(inherits(r$gh_stars, "try-error"))
           gg <- gh_plot(r)
         }
         
         gg
         
-      }, cacheKeyExpr = {list(r$repo, r$date)} )
+      }, cacheKeyExpr = {list(r$repo, r$date, r$gh_stars, r$cran_dl)} )
     }
   )
 }

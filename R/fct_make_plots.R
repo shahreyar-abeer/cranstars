@@ -2,8 +2,7 @@
 
 #' Title
 #'
-#' @param repo 
-#' @param date_range 
+#' @param r \code{reactiveValues} object with 4 slots, repo, date, cran_dl & gh_stars
 #'
 #' @importFrom dplyr filter
 #' @import ggplot2
@@ -11,7 +10,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 cran_plot <- function(r) {
   
   repo <- get_cran_name(r$repo)
@@ -20,12 +18,12 @@ cran_plot <- function(r) {
   
   r$cran_dl %>%
     filter(
-      package == repo,
+      .data$package == repo,
       date >= date_range[1] & date <= date_range[2]
     ) %>% 
     glimpse() %>% 
     ggplot() +
-    geom_path(aes(x = date, y = count, group = package), color = orange) +
+    geom_path(aes(x = date, y = count, group = .data$package), color = orange) +
     labs(
       title = "CRAN Downloads",
       subtitle = paste0("CRAN downloads for {", repo, "}"),
@@ -38,7 +36,7 @@ cran_plot <- function(r) {
 
 #' Title
 #'
-#' @param r 
+#' @param r \code{reactiveValues} object with 4 slots, repo, date, cran_dl & gh_stars
 #'
 #' @return
 #' 
@@ -46,7 +44,6 @@ cran_plot <- function(r) {
 #' 
 #' @export
 #'
-#' @examples
 gh_plot <- function(r) {
   #praise = paste0("{", repo, "} ", " is ", sample(adjectives, 1), "!")
   
@@ -90,10 +87,10 @@ gh_plot <- function(r) {
       labels = c("Thu", "Wed", "Tue", "Mon", "Sun", "Sat", "Fri"),
     ) + 
     labs(
-      title = "Github Stars (github style)",
+      title = "Github Stars (in a github calendar plot)",
       subtitle = paste0("Stars for {", repo, "}")
     ) +
-    ggthemes::theme_tufte(base_family = "sans", base_size = 15) +
+    theme_calendar() +
     theme(axis.title = element_blank(),
           axis.ticks = element_blank(),
           legend.position = "bottom",
