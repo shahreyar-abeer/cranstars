@@ -7,11 +7,12 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' @import gt
 mod_table_ui <- function(id){
   ns <- NS(id)
   tagList(
     fluidRow(
-      gt::gt_output(ns("gt"))
+      gt_output(ns("gt"))
     )
   )
 }
@@ -27,27 +28,27 @@ mod_table_server <- function(id, r){
       
       ns <- session$ns
       
-      output$gt <- gt::render_gt({
+      output$gt <- render_gt({
         
         req(r$cran_dl)
         req(r$gh_stars)
         
         make_table(r) %>% 
-          gt::gt(rowname_col = "col_names") %>% 
-          gt::cols_label(
-            cran_summary = gt::md(paste(gt::web_image("https://cran.r-project.org/Rlogo.svg",
+          gt(rowname_col = "col_names") %>% 
+          cols_label(
+            cran_summary = md(paste(web_image("https://cran.r-project.org/Rlogo.svg",
                                                       height = "18px; padding-top:0px !important"),
                                         "CRAN Downloads")),
-            gh_summary = gt::md(paste(gt::web_image("https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+            gh_summary = md(paste(web_image("https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
                                                     height = "25px; padding-top:0px !important"),
                                       "Github Stars"))
           ) %>% 
-          gt::opt_table_lines() %>% 
-          gt::tab_header(
+          opt_table_lines() %>% 
+          tab_header(
             title = "Summary Statistics",
             subtitle = paste0("{", r$repo, "}")
           ) %>% 
-          gt::tab_footnote("In case of ties, only the first value is shown", locations = gt::cells_stub(rows = c("Most in a day")))
+          tab_footnote("In case of ties, only the first value is shown", locations = cells_stub(rows = c("Most in a day")))
       })
     }
   )
