@@ -13,7 +13,9 @@ mod_sidebar_ui <- function(id){
   ns <- NS(id)
   tagList(
     tags$h3("Overview"),
-    tags$p("This app shows the cran download stats & gh stars stasts"),
+    tags$p("This app shows CRAN downloads & Github Stars statistics for a given package (repo)."),
+    tags$p("You can check out some tidyverse packages that comes with the app.",
+           "And if you have a package on CRAN, see how its doing."),
     selectizeInput(
       inputId = ns("repo"),
       label = "Repo",
@@ -40,14 +42,30 @@ mod_sidebar_ui <- function(id){
     )),
     checkboxInput(
       inputId = ns("check_my_repo"),
-      label = "I want to check out my pakcage!"
+      label = "See how my package is doing."
     ),
     uiOutput(ns("downloading"), style="height:100px;"),
     tags$p("Because the data from github is downloaded page by page,
-           the more stars you have, the longer you'll have to wait.
-           I'll leave it to you to decide whehter popularity is a blessing or a curse!"),
+           the more stars you have, the longer you'll have to wait."),
+    tags$blockquote("Popularity is a curse sometimes",
+                    style = "color: #8a8a8a; font-size:14px;"),
+    tags$p("I'll leave it to you to ponder on that."),
     tags$hr(),
-    tags$footer("Zauad Shahreer Abeer")
+    tags$footer(
+      tags$img(src = "https://raw.githubusercontent.com/rstudio/hex-stickers/master/thumbs/shiny.png",
+               height = "60px", width = "50px", style = "padding-top:0 !important; float:right"),
+      tags$img(src = "https://raw.githubusercontent.com/ThinkR-open/golem/master/inst/rstudio/templates/project/golem.png",
+               height = "60px", width = "50px", style = "padding-top:0 !important; float:right"),
+      tags$a(href = "https://github.com/shahreyar-abeer/cranstars",
+             icon("link"), "Github"),
+      br(),
+      tags$a(href = "https://github.com/shahreyar-abeer/cranstars",
+             icon("link"), "Blog Post"),
+      br(),
+      br(),
+      "by",
+      tags$a(href = "https://thewaywer.rbind.io/about/", "Zauad Shahreer Abeer")
+    )
   )
 }
     
@@ -70,7 +88,7 @@ mod_sidebar_server <- function(id, r){
         color = "transparent",
         html = tagList(
           spin_loaders(id = 38, color = "#292e1eff"),
-          tags$p("connecting & downloading ...", style = "color:#292e1eff")
+          tags$p("connecting & downloading", style = "color:#292e1eff")
         )
       )
       
@@ -80,6 +98,7 @@ mod_sidebar_server <- function(id, r){
           r$repo = input$repo
           r$cran_dl = cran_dl_data
           r$gh_stars = gh_stars_data
+          print("ggplot2")
         }
 
       })
@@ -90,13 +109,13 @@ mod_sidebar_server <- function(id, r){
       
       observeEvent(input$check_my_repo, {
         if ( isTRUE(input$check_my_repo) ) {
-          hide("repo", anim = TRUE, animType = "fade")
-          show("my_repo", anim = TRUE, animType = "slide")
-          show("go", anim = TRUE, animType = "slide")
+          hide("repo", anim = TRUE, animType = "fade", time = .2)
+          show("my_repo", anim = TRUE, animType = "slide", time = 1.2)
+          show("go", anim = TRUE, animType = "slide", time = 1.2)
         } else {
-          hide("my_repo", anim = TRUE, animType = "fade")
-          hide("go", anim = TRUE, animType = "fade")
-          show("repo", anim = TRUE, animType = "slide")
+          hide("my_repo", anim = TRUE, animType = "fade", time = .2)
+          hide("go", anim = TRUE, animType = "fade", time = .2)
+          show("repo", anim = TRUE, animType = "slide", time = 1.2)
         }
       })
       
@@ -111,24 +130,7 @@ mod_sidebar_server <- function(id, r){
           date = input$date
           
           if ( isTRUE(grepl("/", package)) ) {
-            
-            
-            
-            
-            # output$login <- renderUI({
-            #   h3("This is it")
-            # })
-            
-            # show_modal_spinner(
-            #   spin = "folding-cube",
-            #   color = "#4F84B6",
-            #   text = "Trying & Downloading Github data. \n
-            #   The more stars you have, the longer you'll have to wait!"
-            # )
-            # 
-            
-            #gh_stars <- reactive()
-            
+
             gh_stars <- reactive({ 
               w$show()
               g <- get_gh_stars(package)
@@ -160,8 +162,10 @@ mod_sidebar_server <- function(id, r){
             
             if( inherits(gh_stars(), "try-error") ) {
               showModal(modalDialog(
-                title = "Warning: Cannot Proceed",
-                "Please make sure the github repo exists."
+                title = "Error! Cannot Proceed",
+                icon("warning"),
+                "Please make sure the github repo exists.",
+                style="background: #ff9966"
               ))
             } else {
               #print(gh_stars())
@@ -169,12 +173,16 @@ mod_sidebar_server <- function(id, r){
               if( sum(r$cran_dl$count) == 0 ) {
                 showModal(modalDialog(
                   title = "Is it on CRAN yet?",
-                  "0 downloads from CRAN. Maybe its not on CRAN yet, is it?"
+                  icon("warning"),
+                  "0 downloads from CRAN. Maybe its not on CRAN yet, is it?",
+                  style = "background: #ffcc00"
                 ))
               } else {
                 showModal(modalDialog(
                   title = "Success!",
-                  "Data successfully downloaded from CRAN & Github."
+                  icon("check"), 
+                  " Data successfully downloaded from CRAN & Github.",
+                  style = "background: #99cc33;"
                 ))
               }
               
@@ -183,8 +191,10 @@ mod_sidebar_server <- function(id, r){
             }
           } else {
             showModal(modalDialog(
-              title = "Warning: Cannot Proceed.",
-              "Please provide your repo name in the form", tags$em('rstudio/rsconnect')
+              title = "Error! Cannot Proceed.",
+              icon("warning"),
+              "Please provide your repo name in the form", tags$em('rstudio/rsconnect'),
+              style="background: #ff9966"
             ))
           }
         }

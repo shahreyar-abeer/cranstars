@@ -26,8 +26,7 @@ cran_plot <- function(r) {
     geom_path(aes(x = date, y = count, group = .data$package), color = orange) +
     labs(
       title = "CRAN Downloads",
-      subtitle = paste0("CRAN downloads for {", repo, "}"),
-      caption = praise
+      subtitle = paste0("CRAN downloads for {", repo, "}")
     ) +
     theme_minimal(base_size = 18, base_family = "sans")
 }
