@@ -15,4 +15,12 @@ app_server <- function( input, output, session ) {
   mod_sidebar_server("sidebar", r)
   mod_plot_server("cran", r, "cran")
   mod_plot_server("gh", r, "gh")
+  mod_table_server("gt", r)
+  
+  output$quote <- renderUI({
+    x = statquotes::statquote()
+    invalidateLater(1000)
+    tags$blockquote(icon("clock"), format(Sys.time(), "%a, %b %d, %Y | %X"), style = "color: #8a8a8a")
+  })
+  
 }
