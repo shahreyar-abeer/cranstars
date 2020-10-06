@@ -21,8 +21,42 @@ adjectives <- c("outstanding", "great", "first-class", "awesome", "luminous",
                 "superb", "praiseworthy", "marvelous", "sensational", "remarkable")
 
 make_yrmon <- function(date) {
-  as.Date(paste0(format(date, "%Y-%m"), "-01"))
+  paste0(format(date, "%b"), ", ", format(date, "%Y"))
 }
+
+
+get_most_count <- function(data) {
+  d <- data %>%
+    filter(count == max(count, na.rm = TRUE)) %>%
+    slice(1) %>% 
+    select(date, count) %>%
+    mutate(
+      date = format(date, "%d %b, %Y"),
+      count = ifelse(count > 1000, paste0(round(count/1000, 1), "k"), count)
+    )
+    paste(d$date, " (", d$count, ")")
+}
+
+get_most_month <- function(data) {
+  d <- data %>%
+    count(yrmon, wt = count) %>%
+    filter(n == max(n, na.rm = TRUE)) %>%
+    slice(1) %>% 
+    mutate(n = ifelse(n > 1000, paste0(round(n/1000, 1), "k"), n))
+    paste(d$yrmon, "(", d$n, ")")
+}
+
+get_avg <- function(data) {
+  data %>%
+    group_by(yrmon) %>%
+    summarise(avg = mean(count, na.rm = TRUE)) %>%
+    #glimpse() %>% 
+    summarise(avg2 = mean(avg)) %>%
+    mutate(avg2 = ifelse(avg2 > 1000, paste0(round(avg2/1000, 1), "k"), round(avg2, 1))) %>% 
+    pull()
+}
+
+
 
 #' Theme for the github calendar plot
 #' 
@@ -31,7 +65,6 @@ make_yrmon <- function(date) {
 #' 
 #' @importFrom ggplot2 theme_bw
 theme_calendar <- function(base_size = 15, base_family = "sans") {
-  ## TODO: start with theme_minimal
   ret <- theme_bw(base_family = base_family, base_size = base_size) +
     theme(legend.background = element_blank(),
           legend.key = element_blank(),
