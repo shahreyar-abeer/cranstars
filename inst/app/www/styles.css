@@ -40,5 +40,18 @@ h2, h3{
 }
 
 img{
-  padding-top:5em;
+  padding-top:3em;
+}
+
+.waiter-overlay-content {
+  margin-top: -50px !important;
+}
+
+.gt_table {
+  margin-top: 10px;
+}
+
+#quote {
+  margin-left: 120px;
+  margin-top: 120px;
 }
