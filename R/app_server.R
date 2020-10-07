@@ -1,7 +1,7 @@
 #' The application server-side
 #' 
 #' @param input,output,session Internal parameters for {shiny}. 
-#'     DO NOT REMOVE.
+#' 
 #' @importFrom shiny reactiveValues
 #' @noRd
 app_server <- function( input, output, session ) {
@@ -18,7 +18,6 @@ app_server <- function( input, output, session ) {
   mod_table_server("gt", r)
   
   output$quote <- renderUI({
-    x = statquotes::statquote()
     invalidateLater(1000)
     tags$blockquote(icon("clock"), format(Sys.time(), "%a, %b %d, %Y | %X"), style = "color: #8a8a8a")
   })

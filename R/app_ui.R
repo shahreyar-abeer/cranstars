@@ -24,11 +24,11 @@ app_ui <- function(request) {
           fluidRow(
             column(
               width = 6,
-              mod_plot_ui("gh", 550)
+              mod_plot_ui("gh", 450)
             ),
             column(
               width = 6,
-              mod_plot_ui("cran", 550)
+              mod_plot_ui("cran", 450)
             ),
             column(
               width = 6,
