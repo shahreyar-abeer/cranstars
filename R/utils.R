@@ -39,7 +39,7 @@ get_most_count <- function(data) {
 
 get_most_month <- function(data) {
   d <- data %>%
-    count(yrmon, wt = count) %>%
+    count(.data$yrmon, wt = count) %>%
     filter(n == max(n, na.rm = TRUE)) %>%
     slice(1) %>% 
     mutate(n = ifelse(n > 1000, paste0(round(n/1000, 1), "k"), n))
@@ -47,8 +47,10 @@ get_most_month <- function(data) {
 }
 
 get_avg <- function(data) {
+  avg <- NULL
+  avg2 <- NULL
   data %>%
-    group_by(yrmon) %>%
+    group_by(.data$yrmon) %>%
     summarise(avg = mean(count, na.rm = TRUE)) %>%
     #glimpse() %>% 
     summarise(avg2 = mean(avg)) %>%
