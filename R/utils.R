@@ -13,6 +13,9 @@ get_cran_name <- function(repo) {
   unlist(lapply(broken, "[[", 2))
 }
 
+
+globalVariables(c("repos", "cran_dl_data", "gh_stars_data"))
+
 orange <- "#DA7C30"
 
 
