@@ -7,11 +7,11 @@
 #' @importFrom dplyr filter
 #' @import ggplot2
 #' 
-#' @return
+#' @return \code{ggplot}
 #' @export
-#'
+#' 
+
 cran_plot <- function(r) {
-  
   repo <- get_cran_name(r$repo)
   date_range = r$date
   praise = paste0("{", repo, "} ", " is ", sample(adjectives, 1), "!")
@@ -20,8 +20,7 @@ cran_plot <- function(r) {
     filter(
       .data$package == repo,
       date >= date_range[1] & date <= date_range[2]
-    ) %>% 
-    glimpse() %>% 
+    ) %>%
     ggplot() +
     geom_path(aes(x = date, y = count, group = .data$package), color = orange) +
     labs(
@@ -37,7 +36,7 @@ cran_plot <- function(r) {
 #'
 #' @param r \code{reactiveValues} object with 4 slots, repo, date, cran_dl & gh_stars
 #'
-#' @return
+#' @return \code{ggplot}
 #' 
 #' @importFrom lubridate year week day
 #' 
@@ -45,6 +44,9 @@ cran_plot <- function(r) {
 #'
 gh_plot <- function(r) {
   #praise = paste0("{", repo, "} ", " is ", sample(adjectives, 1), "!")
+  
+  ## for R-CMD-check
+  n_stars <- NULL
   
   repo = r$repo
   date_range = r$date
@@ -54,7 +56,7 @@ gh_plot <- function(r) {
   all_dates <- data.frame(date = seq(start, end, by = "day"))
   
   stars <- r$gh_stars %>% 
-    filter(package == repo)
+    filter(.data$package == repo)
   
   joined <- all_dates %>% 
     left_join(stars) %>% 
@@ -63,7 +65,6 @@ gh_plot <- function(r) {
   
   
   joined %>% 
-    glimpse() %>% 
     ggplot(aes(x = week, y = day, fill = n_stars)) +
     
     scale_fill_gradient(
