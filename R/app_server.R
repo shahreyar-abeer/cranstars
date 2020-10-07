@@ -1,8 +1,8 @@
-#' The application server-side
+#' cranStars server-side
 #' 
 #' @param input,output,session Internal parameters for {shiny}. 
 #' 
-#' @importFrom shiny reactiveValues
+#' @importFrom shiny reactiveValues renderUI invalidateLater tags
 #' @noRd
 app_server <- function( input, output, session ) {
   # List the first level callModules here

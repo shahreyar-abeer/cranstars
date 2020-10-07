@@ -1,4 +1,4 @@
-#' The application User-Interface
+#' cranStars User-Interface
 #' 
 #' @param request Internal parameter for `{shiny}`. 
 #'     DO NOT REMOVE.
@@ -6,9 +6,7 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # Leave this function for adding external resources
     golem_add_external_resources(),
-    # List the first level UI elements here 
     fluidPage(
       sidebarLayout(
         sidebarPanel(
@@ -52,6 +50,9 @@ app_ui <- function(request) {
 #' 
 #' @importFrom shiny tags
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
+#' @importFrom waiter use_waiter
+#' @importFrom shinyjs useShinyjs
+#' 
 #' @noRd
 golem_add_external_resources <- function(){
   
@@ -65,11 +66,8 @@ golem_add_external_resources <- function(){
       path = app_sys('app/www'),
       app_title = 'cranstars'
     ),
-    waiter::use_waiter(),
-    shinyjs::useShinyjs()
-    # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert() 
-    
+    use_waiter(),
+    useShinyjs()
   )
 }
 
