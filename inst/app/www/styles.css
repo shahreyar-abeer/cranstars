@@ -20,6 +20,10 @@ body{
   margin-top:0px !important;
 }
 
+.col-sm-3, .col-sm-9 {
+  margin-top: 20px;
+} 
+
 .col-sm-9> .row{
   background: var(--background);
   border:solid 1px;
@@ -40,7 +44,7 @@ h2, h3{
 }
 
 img{
-  padding-top:3em;
+  padding-top:0em;
 }
 
 .waiter-overlay-content {
