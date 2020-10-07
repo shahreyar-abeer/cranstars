@@ -5,8 +5,8 @@
 #' @param id Module's ID
 #'
 #' @import shiny
-#' @importFrom shinyjs hidden show hide
-#' @importFrom waiter Waiter spin_loaders
+#' @importFrom shinyjs hidden
+
 #' 
 #' @noRd 
 mod_sidebar_ui <- function(id){
@@ -58,30 +58,32 @@ mod_sidebar_ui <- function(id){
                height = "60px", width = "50px", style = "padding-top:0 !important; float:right"),
       tags$a(href = "https://github.com/shahreyar-abeer/cranstars",
              icon("link"), "Github"),
-      br(),
+      HTML("&nbsp;"),
       tags$a(href = "https://github.com/shahreyar-abeer/cranstars",
              icon("link"), "Blog Post"),
       br(),
       br(),
       "by",
-      tags$a(href = "https://thewaywer.rbind.io/about/", "Zauad Shahreer Abeer")
+      tags$a(href = "https://thewaywer.rbind.io/about/", "Zauad Shahreer Abeer"),
+      style = "text-align: center;"
     )
   )
 }
     
 #' sidebar Server Function
 #' 
-#' @param id Modules ID
+#' @param id Module's ID
 #' @param input,output,session Internal parameters for {shiny}.
 #' 
-#' @importFrom shinybusy show_modal_spinner remove_modal_spinner
-#'
+#' @importFrom shinyjs show hide
+#' @importFrom waiter Waiter spin_loaders
 #' @noRd 
 mod_sidebar_server <- function(id, r){
   moduleServer(
     id = id,
     function(input, output, session) {
       ns <- session$ns
+      
       
       w = Waiter$new(
         id = ns("downloading"),
@@ -98,7 +100,6 @@ mod_sidebar_server <- function(id, r){
           r$repo = input$repo
           r$cran_dl = cran_dl_data
           r$gh_stars = gh_stars_data
-          print("ggplot2")
         }
 
       })
@@ -144,21 +145,8 @@ mod_sidebar_server <- function(id, r){
             })
             
             output$downloading <- renderUI({
-              #w$show()
-              #gh_stars <- reactive({ get_gh_stars(package) })
-              # if( !inherits(gh_stars(), "try-error") )
-              #   tags$p(icon("download"), paste("Downloaded", nrow(gh_stars()), "rows"))
+              # ...
             })
-            
-            # observeEvent(gh_stars(), {
-            #   print("now")
-            #   shinyjs::hide("downloading", anim = TRUE, animType = "fade", time = 3)
-            # })
-            
-            
-            #gh_stars <- ""
-            
-            # remove_modal_spinner()
             
             if( inherits(gh_stars(), "try-error") ) {
               showModal(modalDialog(
@@ -168,7 +156,6 @@ mod_sidebar_server <- function(id, r){
                 style="background: #ff9966"
               ))
             } else {
-              #print(gh_stars())
               
               if( sum(r$cran_dl$count) == 0 ) {
                 showModal(modalDialog(
@@ -185,7 +172,6 @@ mod_sidebar_server <- function(id, r){
                   style = "background: #99cc33;"
                 ))
               }
-              
               r$repo <- package
               r$gh_stars <- gh_stars()
             }

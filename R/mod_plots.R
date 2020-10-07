@@ -33,8 +33,6 @@ mod_plot_server <- function(id, r, type = c("cran", "gh")){
         
         req(r$cran_dl)
         req(r$gh_stars)
-        
-        print(make_table(r))
         if (type == "cran") {
           gg <- cran_plot(r)
         } else {
@@ -47,10 +45,5 @@ mod_plot_server <- function(id, r, type = c("cran", "gh")){
     }
   )
 }
-    
-## To be copied in the UI
-# mod_main_ui("main_ui_1")
-    
-## To be copied in the server
-# callModule(mod_main_server, "main_ui_1")
+
  
