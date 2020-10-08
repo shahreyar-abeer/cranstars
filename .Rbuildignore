@@ -4,3 +4,8 @@
 dev_history.R
 ^dev$
 $run_dev.*
+^codecov\.yml$
+^app\.R$
+^rsconnect$
+^\.github$
+^LICENSE\.md$
