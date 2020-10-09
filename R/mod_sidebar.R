@@ -19,7 +19,7 @@ mod_sidebar_ui <- function(id){
     selectizeInput(
       inputId = ns("repo"),
       label = "Repo",
-      choices = repos$tidypacks
+      choices = cranstars::repos$tidypacks
     ),
     dateRangeInput(
       inputId = ns("date"),
@@ -98,8 +98,8 @@ mod_sidebar_server <- function(id, r){
       
         if( isFALSE(input$check_my_repo) ) {
           r$repo = input$repo
-          r$cran_dl = cran_dl_data
-          r$gh_stars = gh_stars_data
+          r$cran_dl = cranstars::cran_dl_data
+          r$gh_stars = cranstars::gh_stars_data
         }
 
       })
