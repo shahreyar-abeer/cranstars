@@ -14,8 +14,6 @@ get_cran_name <- function(repo) {
 }
 
 
-globalVariables(c("repos", "cran_dl_data", "gh_stars_data"))
-
 orange <- "#DA7C30"
 
 
