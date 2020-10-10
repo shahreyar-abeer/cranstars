@@ -59,3 +59,8 @@ img{
   margin-left: 120px;
   margin-top: 120px;
 }
+
+.highcharts-root {
+  font-family: IBM Plex Sans !important;
+  font-size: 15px;
+}
