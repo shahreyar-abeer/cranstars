@@ -1,6 +1,6 @@
 Package: cranstars
 Title: A Shiny app that shows CRAN downloads & Github stars statistics
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = "Zauad Shahreer",
            family = "Abeer",
@@ -22,7 +22,8 @@ Imports:
     shinyjs,
     waiter,
     gt,
-    pkgload
+    pkgload,
+    highcharter
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
