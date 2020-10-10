@@ -42,7 +42,7 @@ mod_sidebar_ui <- function(id){
     )),
     checkboxInput(
       inputId = ns("check_my_repo"),
-      label = "See how my package is doing."
+      label = "Let's see some other packages, possibly mine!"
     ),
     uiOutput(ns("downloading"), style="height:100px;"),
     tags$p("Because the data from github is downloaded page by page,

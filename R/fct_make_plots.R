@@ -5,7 +5,7 @@
 #' @param r \code{reactiveValues} object with 4 slots, repo, date, cran_dl & gh_stars
 #'
 #' @importFrom dplyr filter
-#' @import ggplot2
+#' @importFrom highcharter hchart hcaes hc_title hc_subtitle hc_caption
 #' 
 #' @return \code{ggplot}
 #' @export
@@ -14,20 +14,30 @@
 cran_plot <- function(r) {
   repo <- get_cran_name(r$repo)
   date_range = r$date
-  praise = paste0("{", repo, "} ", " is ", sample(adjectives, 1), "!")
+  
   
   r$cran_dl %>%
     filter(
       .data$package == repo,
       date >= date_range[1] & date <= date_range[2]
     ) %>%
-    ggplot() +
-    geom_path(aes(x = date, y = count, group = .data$package), color = orange) +
-    labs(
-      title = "CRAN Downloads",
-      subtitle = paste0("CRAN downloads for {", repo, "}")
-    ) +
-    theme_minimal(base_size = 18, base_family = "sans")
+    hchart(type = "line",
+           hcaes(x = date, y = count, group = .data$package),
+           color = orange) %>% 
+    hc_title(text = "CRAN Downloads", style = list(fontFamily = "IBM Plex Sans",
+                                                   fontSize = "18px", fontWeight = "bold",
+                                                   color = "#292e1eff"),
+             align = "left", x = 30) %>% 
+    hc_subtitle(text = paste0("CRAN downloads data for {", repo, "}"),
+                style = list(fontFamily = "IBM Plex Sans", fontSize = "15px"),
+                align = "left", x = 30) %>%
+    hc_caption(text = feedback(r), style = list(fontFamily = "IBM Plex Sans", fontSize = "13px"),
+               align = "right")
+    
+    #   title = "CRAN Downloads",
+    #   subtitle = paste0("CRAN downloads for {", repo, "}")
+    # ) +
+    # theme_minimal(base_size = 18, base_family = "sans")
 }
 
 
@@ -39,6 +49,7 @@ cran_plot <- function(r) {
 #' @return \code{ggplot}
 #' 
 #' @importFrom lubridate year week day
+#' @import ggplot2
 #' 
 #' @export
 #'
@@ -97,5 +108,6 @@ gh_plot <- function(r) {
           legend.key.width = unit(1, "cm"),
           strip.text = element_text(hjust = 0.01, face = "bold", size = 15),
           title = element_text(size = 18),
+          plot.subtitle = element_text(color = "#666666"),
           legend.title = element_blank())
 }

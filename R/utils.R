@@ -16,10 +16,20 @@ get_cran_name <- function(repo) {
 
 orange <- "#DA7C30"
 
+feedback <- function(r) {
+  repo = get_cran_name(r$repo)
+  adjectives <- c("outstanding", "great", "first-class", "awesome", "luminous",
+                  "extraordinary", "polished", "stylish", "magnificent", "stunning",
+                  "superb", "praiseworthy", "marvelous", "sensational", "remarkable")
+  ds <- r$cran_dl %>% 
+    filter(.data$package == repo) %>% 
+    select(count) %>% 
+    pull() %>% 
+    sum()
+  if ( ds > 10000 ) paste0("{", repo, "} ", " is ", sample(adjectives, 1), "!")
+  else "Is the clock ticking?"
+}
 
-adjectives <- c("outstanding", "great", "first-class", "awesome", "luminous",
-                "extraordinary", "polished", "stylish", "magnificent", "stunning",
-                "superb", "praiseworthy", "marvelous", "sensational", "remarkable")
 
 make_yrmon <- function(date) {
   paste0(format(date, "%b"), ", ", format(date, "%Y"))
