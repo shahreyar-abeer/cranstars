@@ -23,10 +23,17 @@ Imports:
     waiter,
     gt,
     pkgload,
-    highcharter
+    highcharter,
+    attempt,
+    DT,
+    glue,
+    htmltools,
+    processx
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,
-    covr
+    covr,
+    spelling
+Language: en-US
