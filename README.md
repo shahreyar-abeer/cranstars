@@ -14,6 +14,15 @@ This is developed with the {golem} framework.
 
 App available at <https://shahreyar-abeer.shinyapps.io/cranstars/>  
 
+
+The following is a [feedback](https://twitter.com/_ColinFay/status/1319188197759459328) given by [Colin Fay](https://twitter.com/_ColinFay) from [Thinkr](https://thinkr.fr/)
+
+
+![image](https://user-images.githubusercontent.com/20732893/123015643-a5a82400-d3ea-11eb-8d07-ffbb9ae6e633.png)
+
+
+## Installing & Running
+
 Install `{cranstars}` on your machine with:
 
 ``` r
